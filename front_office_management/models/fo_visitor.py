@@ -18,17 +18,21 @@ class VisitorDetails(models.Model):
     country_id = fields.Many2one('res.country', string='Country',
                                  ondelete='restrict')
     phone = fields.Char(string="Phone", required=True)
-    email = fields.Char(string="Email", required=True)
-    id_proof = fields.Many2one('id.proof', string="ID Proof")
-    id_proof_no = fields.Char(string="ID Number", help='Id proof number')
+    email = fields.Char(string="Email",)
+    id_proof = fields.Many2one('id.proof', string="Type de pièce")
+    #proof_id_type = fields.Selection(selection=[('cni', 'CNI'), ('pass', 'Passport'), ('badge', 'Badge'), ('autre', 'Autres')], string="Type de pièce", default='cni')
+    #proof_id_no = fields.Char(string="N° de pièce", help='Id proof number', required=True)
+    id_proof_no = fields.Char(string="N° de Pièce", help='Id proof number')
     company_info = fields.Many2one('res.partner', string="Company",
                                    help='Visiting persons company details')
     visit_count = fields.Integer(compute='_no_visit_count', string='# Visits')
-
+    
+    """
     _sql_constraints = [
         ('field_uniq_email_and_id_proof', 'unique (email,id_proof)',
          "Please give the correct data !"),
     ]
+    """
 
     def _no_visit_count(self):
         data = self.env['fo.visit'].search(

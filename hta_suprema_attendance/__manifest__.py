@@ -32,4 +32,5 @@
     'demo': [
         'demo/demo.xml',
     ],
+    'license': 'AGPL-3',
 }

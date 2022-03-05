@@ -79,7 +79,7 @@
                         <t t-name="kanban-box">
                             <div class="oe_kanban_global_click">
                                 <div class="o_kanban_image">
-                                    <img t-att-src="kanban_image('fo.visitor', 'visitor_image', record.id.value)"/>
+                                    <img t-att-src="kanban_image('fo.visitor', 'visitor_image', record.id.value)" t-att-alt="record.id.value"/>
                                 </div>
                                 <div class="oe_kanban_details">
                                     <strong>
@@ -139,12 +139,12 @@
                   parent="visitor_mgmnt_menu"
                   action="fo_visitor_action"
                   groups="base.group_user"
-                  sequence="1"/>
+                  sequence="2"/>
         <menuitem id="fo_visit_menu"
                   name="Visits"
                   parent="visitor_mgmnt_menu"
                   action="fo_visit_action"
-                  sequence="2"/>
+                  sequence="1"/>
         <menuitem id="fo_today_visit_menu"
                   name="Today's Visits"
                   parent="front_office_mgmnt_main"
