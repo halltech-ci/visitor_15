@@ -1,23 +1,4 @@
 # -*- coding: utf-8 -*-
-#############################################################################
-#
-#    Cybrosys Technologies Pvt. Ltd.
-#
-#    Copyright (C) 2021-TODAY Cybrosys Technologies(<https://www.cybrosys.com>)
-#    Author: odoo@cybrosys.com
-#    You can modify it under the terms of the GNU AFFERO
-#    GENERAL PUBLIC LICENSE (AGPL v3), Version 3.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU AFFERO GENERAL PUBLIC LICENSE (AGPL v3) for more details.
-#
-#    You should have received a copy of the GNU AFFERO GENERAL PUBLIC LICENSE
-#    (AGPL v3) along with this program.
-#    If not, see <http://www.gnu.org/licenses/>.
-#
-#############################################################################
 
 import datetime
 from odoo import models, fields, api, _
@@ -31,13 +12,14 @@ class VisitDetails(models.Model):
     name = fields.Char(string="sequence", default=lambda self: _('New'))
     visitor = fields.Many2one("fo.visitor", string='Visitor')
     phone = fields.Char(string="Phone", required=True)
+    #proof_id = fields.Many2one(related)
     email = fields.Char(string="Email", required=True)
     reason = fields.Many2many('fo.purpose', string='Purpose Of Visit',
                               required=True,
                               help='Enter the reason for visit')
     visitor_belongings = fields.One2many('fo.belongings',
                                          'belongings_id_fov_visitor',
-                                         string="Personal Belongings",
+                                         string="File d'attente",
                                          help='Add the belongings details '
                                               'here.')
     check_in_date = fields.Datetime(string="Check In Time",
@@ -47,8 +29,10 @@ class VisitDetails(models.Model):
                                      help='Visitor check out time'
                                           ' automatically fills when he '
                                           'checked out from the office.')
-    visiting_person = fields.Many2one('hr.employee', string="Meeting With")
+    visiting_person = fields.Many2one('hr.employee', string="Employé")
     department = fields.Many2one('hr.department', string="Department")
+    visiting_person_mobile_phone = fields.Char(string="Employee Mobile Number")
+    visiting_person_work_phone = fields.Char(string="Employee phone Number")
     state = fields.Selection([
         ('draft', 'Draft'),
         ('check_in', 'Checked In'),
@@ -87,6 +71,8 @@ class VisitDetails(models.Model):
     def get_employee_dpt(self):
         if self.visiting_person:
             self.department = self.visiting_person.department_id
+            self.visiting_person_mobile_phone = self.visiting_person.mobile_phone
+            self.visiting_person_work_phone = self.visiting_person.work_phone
 
 
 class PersonalBelongings(models.Model):
@@ -100,7 +86,7 @@ class PersonalBelongings(models.Model):
     belongings_id_fov_visitor = fields.Many2one('fo.visit',
                                                 string="Belongings")
     belongings_id_fov_employee = fields.Many2one('fo.property.counter',
-                                                 string="Belongings")
+                                                 string="File d'attente")
     permission = fields.Selection([
         ('0', 'Allowed'),
         ('1', 'Not Allowed'),
