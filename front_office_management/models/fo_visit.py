@@ -91,7 +91,9 @@ class PersonalBelongings(models.Model):
         ('0', 'Allowed'),
         ('1', 'Not Allowed'),
         ('2', 'Allowed With Permission'),
-        ], 'Permission', required=True, index=True, default='0', tracking=True)
+        ], 'Permission', required=True, index=True, default='0', 
+        #tracking=True
+    )
 
     @api.depends('belongings_id_fov_visitor', 'belongings_id_fov_employee')
     def get_number(self):
