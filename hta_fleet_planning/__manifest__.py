@@ -20,7 +20,7 @@
     'version': '15.0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['hta_fleet_management', 'planning', 'sale'],
+    'depends': ['hta_fleet_management', 'planning', 'purchase'],
 
     # always loaded
     'data': [
