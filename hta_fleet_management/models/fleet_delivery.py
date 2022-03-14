@@ -2,8 +2,10 @@
 
 from odoo import models, fields, api, _
 
+
 class FleetDelivery(models.Model):
     _name = "fleet.delivery"
+    _inherit = ['mail.thread']
     _description = "Gestion des livraison"
     
     name = fields.Char(index=True, default=lambda self: _('New'))
