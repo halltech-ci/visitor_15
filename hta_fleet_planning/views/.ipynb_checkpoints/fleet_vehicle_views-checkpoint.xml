@@ -1,0 +1,21 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="hta_fleet_vehicle_form_view">
+        <field name="name">fleet_vehicle_form_view</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group/group[2]/field[@name='location']" position="after">
+                <field name="planning_enabled" class="oe_inline"/>
+                <span attrs="{'invisible': [('planning_enabled', '=', False)]}" class="oe_inline mr-2">
+                    as
+                </span>
+                <field name="planning_role_id"
+                    attrs="{'invisible': [('planning_enabled', '=', False)], 'required': [('planning_enabled', '=', True)]}"
+                    class="oe_inline" nolabel="1"
+                />
+            </xpath>
+        </field>
+    </record>
+  </data>
+</odoo>
