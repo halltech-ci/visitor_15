@@ -14,7 +14,7 @@ class FleetDelivery(models.Model):
         ('done', 'Livre'),
         ('lock', 'Termine'),
         ('cancel', 'Cancelled'),
-        ], string='Status', readonly=True, copy=False, index=True, tracking=3, default='draft'
+        ], string='Status', readonly=True, copy=False, index=True, tracking=True, default='draft'
     )
     partner_id = fields.Many2one('res.partner', string='Client')
     """partner_shipping_id = fields.Many2one('res.partner', string='Delivery Address', required=True,
