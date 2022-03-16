@@ -18,6 +18,7 @@
                         <group name="partner_details">
                             <field name="partner_id" widget="res_partner_many2one" context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True}" options='{"always_reload": True}'/>
                             <!--<field name="partner_shipping_id" context="{'default_type':'delivery'}" options='{"always_reload": True}'/>-->
+                            <field name="order_id" required='1'/>
                         </group>
                         <group name="delivery_details">
                             <field name="date"/>
