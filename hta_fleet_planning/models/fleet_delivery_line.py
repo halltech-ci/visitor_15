@@ -1,0 +1,13 @@
+# -*- coding: utf-8 -*-
+
+from odoo import _, api, fields, models
+from odoo.tools import float_round, format_duration, float_compare, float_is_zero
+
+class FleetDeliveryLine(models.Model):
+    _inherit = 'fleet.delivery.line'
+    
+    planning_slot_ids = fields.One2many('planning.slot', 'fleet_delivery_line')
+    planning_hours_planned = fields.Float(store=True, compute_sudo=True)
+    planning_hours_to_plan = fields.Float(store=True, compute_sudo=True)
+
+    
