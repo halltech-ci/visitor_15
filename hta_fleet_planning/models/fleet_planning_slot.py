@@ -506,7 +506,7 @@ class PlanningSlot(models.Model):
         """
         self.ensure_one()
         res = super()._init_remaining_hours_to_plan(remaining_hours_to_plan)
-        if self.fleet_delivery_line.delivery_id.planning_enabled:
+        if self.fleet_delivery_line.vehicle_id.planning_enabled:
             # if the slot is linked to a slot, we only need to allocate the remaining hours to plan
             # we keep track of those hours in a dict and decrease it each time we create a slot.
             if self.fleet_delivery_line not in remaining_hours_to_plan:
