@@ -526,7 +526,7 @@ class PlanningSlot(models.Model):
 
             :return a bool representing wether or not there are still hours remaining
         """
-        if self.fleet_delivery_line.delivery_id.planning_enabled:
+        if self.fleet_delivery_line.vehicle_id.planning_enabled:
             if float_utils.float_compare(remaining_hours_to_plan[self.fleet_delivery_line], 0.0, precision_digits=2) < 1:
                 return False
             # The allocated hours of the slot can be computed as for a slot with allocation_type == 'planning'
