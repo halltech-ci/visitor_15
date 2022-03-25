@@ -43,6 +43,8 @@ class FleetDelivery(models.Model):
 class FleetDeliveryLine(models.Model):
     _name = "fleet.delivery.line"
     _description = "Gestion des livraison des commandes des clients"
+    
+    
     state = fields.Selection(related="delivery_id.state")
     vehicle_id = fields.Many2one('fleet.vehicle', string="Vehicule")
     delivery_id = fields.Many2one('fleet.delivery')

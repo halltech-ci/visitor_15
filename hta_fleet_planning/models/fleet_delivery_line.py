@@ -12,4 +12,14 @@ class FleetDeliveryLine(models.Model):
     state = fields.Selection(related="delivery_id.state")
     
     
+    def name_get(self):
+        result = []
+        for line in self.sudo():
+            name = '%s-%s' % (line.delivery_id.order_id, line.vehicle_id.name)
+            result.append((line.id, name))
+        return resul
+    
+    
+    
+    
     

@@ -172,7 +172,7 @@ class PlanningSlot(models.Model):
     def _get_domain_template_slots(self):
         domain = super()._get_domain_template_slots()
         if self.delivery_line_plannable:
-            domain = expression.AND([domain, ['|', ('role_id', '=', self.fleet_delivery_line0.vehicle_id.planning_role_id.id), ('role_id', '=', False)]])
+            domain = expression.AND([domain, ['|', ('role_id', '=', self.fleet_delivery_line.vehicle_id.planning_role_id.id), ('role_id', '=', False)]])
         return domain
     
     def _get_fleet_delivery_slots_to_plan(self, vals, slot_vals_list_per_resource):
