@@ -26,7 +26,7 @@ class FleetDelivery(models.Model):
     company_id = fields.Many2one('res.company', 'Company', required=True, index=True, default=lambda self: self.env.company)
     date = fields.Datetime(string='Date', required=True, readonly=True, index=True, copy=False, default=fields.Datetime.now, help="Creation date")
     expected_date = fields.Date(string='Expected Date', required=True, copy=False,)
-    order_id = fields.Char(string="N° de Commande")
+    order_id = fields.Many2one('sale.order', string="N° de Commande")
     
     @api.model
     def create(self, vals):
