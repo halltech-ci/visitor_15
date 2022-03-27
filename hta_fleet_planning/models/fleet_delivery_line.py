@@ -12,6 +12,24 @@ class FleetDeliveryLine(models.Model):
     state = fields.Selection(related="delivery_id.state")
     
     
+    # -----------------------------------------------------------------
+    # ORM Override
+    # -----------------------------------------------------------------
+    """
+    @api.model_create_multi
+    def create(self, vals_list):
+        lines = super().create(vals_list)
+        for line in lines:
+            if line.state == 'sale' and not line.is_expense:
+                line.sudo()._planning_slot_generation()
+        return lines
+
+    def write(self, vals):
+        res = super().write(vals)
+        self.filtered(lambda sol: not sol.is_expense)._post_process_planning_sale_line()
+        return res
+    """
+    
     def name_get(self):
         result = []
         for line in self.sudo():
@@ -51,6 +69,34 @@ class FleetDeliveryLine(models.Model):
                     if float_is_zero(slot.allocated_hours, precision_digits=2):
                         slots_to_unlink |= slot
             slots_to_unlink.unlink()
+            
+            
+    def _planning_slot_generation(self):
+        """
+            For delivery vehicle with slot generation, create the planning slot.
+        """
+        vals_list = []
+        for so_line in self:
+            if (so_line.vehicle_id.planning_enabled
+               and not so_line.planning_slot_ids
+               and float_compare(
+                    so_line.planning_hours_to_plan,
+                    so_line.planning_hours_planned,
+                    precision_digits=2) == 1):
+                vals_list.append(so_line._planning_slot_values())
+        self.env['planning.slot'].create(vals_list)
+
+    def _planning_slot_values(self):
+        return {
+            'start_datetime': False,
+            'end_datetime': False,
+            'role_id': self.vehicle_id.planning_role_id.id,
+            'fleet_delivery_line': self.id,
+            'delivery_id': self.delivery_id.id,
+            'allocated_hours': self.planning_hours_to_plan - self.planning_hours_planned,
+            'allocated_percentage': 100,
+            'company_id': self.company_id.id,
+        }
 
     
     
