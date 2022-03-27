@@ -13,6 +13,11 @@
                     <field name="delivery_count" widget="statinfo" />
                 </button>
             </div>
+            <sheet position="before">
+              <header>
+                  <button type="object" name="create_fleet_delivery" string="Creer livraison" class="oe_highlight"/>
+              </header>  
+          </sheet>
         </field>
     </record>
       
