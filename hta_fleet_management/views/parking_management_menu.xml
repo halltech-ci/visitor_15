@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="parking_mgmnt_form_view">
+            <field name="name">Vehicles</field>
+            <field name="model">parking.vehicle</field>
+            <field name="arch" type="xml">
+                <form string="Vehicles">
+                    <sheet>
+                        <!--<field name="vehicle_image" widget="image" class="oe_avatar" style="margin-right:50px"/>-->
+                        <div name="title_name" class="oe_title">
+                            <h1>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <field name="name"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="vehicle_type"/>
+                                <field name="mineral_plate"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    <!--
+    <record id="vehicle_mgmnt_kanban_view" model="ir.ui.view">
+        <field name="name">vehicle_mgmnt_kanban</field>
+        <field name="model">parking.vehicule</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('parking.vehicle', 'visitor_image', record.id.value)" t-att-alt="record.id.value"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong>
+                                    <ul>
+                                        <li>Name :
+                                            <field name="name"/>
+                                        </li>
+                                        <li>Plaque:
+                                            <field name="mineral_plate"/>
+                                        </li>
+                                    </ul>
+                                </strong>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    -->  
+      
+    <record model="ir.ui.view" id="vehicle_mgmnt_tree_view">
+        <field name="name">vehicle_tree</field>
+        <field name="model">parking.vehicle</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string='Vehicles'>
+                <field name="name"/>
+                <field name="vehicle_type"/>
+                <field name="mineral_plate"/>
+            </tree>
+        </field>
+    </record>
+      
+    <record id="vehicle_mgmnt_action" model="ir.actions.act_window">
+        <field name="name">Vehicles</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">parking.vehicle</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_id" ref="vehicle_mgmnt_tree_view"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to Create New Vehicle.
+            </p>
+        </field>
+    </record>
+      
+    <menuitem id="parking_mgmnt_main" name="Parking Management" sequence="2"/>
+    <menuitem id="vehicle_mgmnt_menu" name="Vehicle Management" parent="parking_mgmnt_main" sequence="1"/>
+    <menuitem id="vehicle_menu" name="Vehicle" parent="vehicle_mgmnt_menu" action="vehicle_mgmnt_action" groups="base.group_user" sequence="1"/>
+  </data>
+</odoo>

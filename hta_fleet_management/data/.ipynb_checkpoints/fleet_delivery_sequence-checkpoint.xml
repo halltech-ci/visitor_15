@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<odoo>
+    <data noupdate="1">
+    <record id="fleet_delivery_code_seq" model="ir.sequence">
+        <field name="name">Fleet_delivery_code</field>
+        <field name="code">fleet.delivery.code</field>
+        <field name="padding">6</field>
+        <field name="prefix">LIV:%(y)s/%(month)s-</field>
+        <field name="active">TRUE</field>
+        <field eval="1" name="number_next"/>
+        <field eval="1" name="number_increment"/>
+        <field eval="True" name="use_date_range"/>
+        <field name="company_id" eval="True" />
+        <field name='implementation'>standard</field>
+    </record>
+    </data>    
+</odoo>

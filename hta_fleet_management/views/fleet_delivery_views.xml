@@ -1,0 +1,147 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="fleet_delivery_form_view">
+        <field name="name">fleet_delivery_form_views</field>
+        <field name="model">fleet.delivery</field>
+        <field name="arch" type="xml">
+            <form string="Delivery">
+                <header>
+                    <button name="action_submit" 
+                        type="object" 
+                        string="Soumettre"
+                        states='draft'
+                        class="oe_highlight"
+                    />
+                    <button name="action_plan" 
+                        type="object" 
+                        string="Planifier"
+                        states='submit'
+                        class="oe_highlight"
+                    />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submit,started,done,lock,cancel"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group name="delivery_header">
+                        <group name="partner_details">
+                            <field name="partner_id" widget="res_partner_many2one" context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True}" options='{"always_reload": True}'/>
+                            <!--<field name="partner_shipping_id" context="{'default_type':'delivery'}" options='{"always_reload": True}'/>-->
+                            <field name="order_id" required='1'/>
+                        </group>
+                        <group name="delivery_details">
+                            <field name="date"/>
+                            <field name="expected_date"/>
+                            <field name="company_id" readonly='1' invisible='1'/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Delivery Line" name="delivery_lines">
+                            <field name="delivery_line_ids" mode="tree,kanban" 
+                                   attrs="{'readonly': [('state', 'not in', ('draft','loading', 'cancel'))]}"
+                            >
+                                <tree editable="bottom">
+                                    <field name="delivery_id" invisible='1'/>
+                                    <field name="vehicle_id"/>
+                                    <field name="product_id"/>
+                                    <field name="product_qty"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="fleet_delivery_list_view">
+        <field name="name">fleet_delivery_list_views</field>
+        <field name="model">fleet.delivery</field>
+        <field name="arch" type="xml">
+            <tree string="Delivery">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="date"/>
+                <field name='state'/>
+            </tree>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="fleet_delivery_line_tree_view">
+        <field name="name">fleet_delivery_line_tree_views</field>
+        <field name="model">fleet.delivery.line</field>
+        <field name="arch" type="xml">
+            <tree create="false" editable="bottom">
+                <field name="delivery_id" readonly='1'/>
+                <field name="partner_id" readonly='1'/>
+                <field name="date" readonly='1'/>
+                <field name="vehicle_id" readonly='1'/>
+                <field name="product_id" readonly='1'/>
+                <field name="product_qty" readonly='1'/>
+                <field name="loading_date"/>
+                <field name="delivery_date"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="fleet_delivery_transporter_tree_view">
+        <field name="name">fleet_delivery_transporter_tree_views</field>
+        <field name="model">fleet.delivery.line</field>
+        <field name="arch" type="xml">
+            <tree create="false" editable="bottom">
+                <field name="vehicle_owner" readonly='1'/>
+                <field name="vehicle_id" readonly='1'/>
+                <field name="product_id" readonly='1'/>
+                <field name="product_qty" sum="Qté Totale" readonly='1'/>
+                <field name="delivery_id" readonly='1'/>
+                <field name="date" readonly='1'/>
+                <field name="delivery_date"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id='fleet_delivery_transporter_action' model='ir.actions.act_window'>
+        <field name="name">Transporteurs</field>
+        <field name="res_model">fleet.delivery.line</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="fleet_delivery_transporter_tree_view"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create a new delivery
+          </p>
+        </field>
+    </record>
+    
+    <record id='fleet_delivery_line_action' model='ir.actions.act_window'>
+        <field name="name">Chargements</field>
+        <field name="res_model">fleet.delivery.line</field>
+        <field name="view_mode">tree</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create a new delivery
+          </p>
+        </field>
+    </record>
+    
+    <record id='fleet_delivery_action' model='ir.actions.act_window'>
+        <field name="name">Livraisons</field>
+        <field name="res_model">fleet.delivery</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a new delivery
+          </p>
+        </field>
+    </record>
+      
+    <menuitem name="Livraisons" parent="fleet.menu_root" id="fleet_delivery_menu" sequence="1" groups="fleet.fleet_group_manager"/>
+    <menuitem action="fleet_delivery_action" parent="fleet_delivery_menu" id="fleet_delivery_submenu" sequence="1"/>
+    <menuitem action="fleet_delivery_line_action" parent="fleet_delivery_menu" id="fleet_delivery_line" sequence="2"/>
+    <menuitem action="fleet_delivery_transporter_action" parent="fleet_delivery_menu" id="fleet_delivery_transporter" sequence="3"/>
+    
+  </data>
+</odoo>
