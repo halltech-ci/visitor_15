@@ -11,6 +11,8 @@ class FleetDelivery(models.Model):
     name = fields.Char(index=True, default=lambda self: _('New'))
     state = fields.Selection([
         ('draft', 'Draft'),
+        ('submit', 'A planifier'),
+        ('plan', 'Planifie'),
         ('loading', 'En chargement'),
         ('started', 'En cours'),
         ('done', 'Livre'),
@@ -24,6 +26,22 @@ class FleetDelivery(models.Model):
     date = fields.Datetime(string='Date', required=True, readonly=True, index=True, copy=False, default=fields.Datetime.now, help="Creation date")
     expected_date = fields.Date(string='Expected Date', required=True, copy=False,)
     order_id = fields.Many2one('sale.order', string="N° de Commande")
+    
+    def action_submit(self):
+        for rec in self:
+            rec.state = 'submit'
+    
+    def action_plan(self):
+
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "planning.slot",
+            "views": [[False, "form"]],
+            #"domain": [("id", "in", delivery_lines.ids)],
+            #"context": dict(self._context, create=False),
+            "name": "Planifier livraison",
+        }
+        
     
     @api.model
     def create(self, vals):
