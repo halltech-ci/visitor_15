@@ -29,6 +29,7 @@
         'views/templates.xml',
         'views/fleet_delivery_views.xml',
         'views/fleet_vehicle_views.xml',
+        'views/sale_order_views.xml',
         #data
         'data/fleet_delivery_sequence.xml',
         #"views/parking_management_menu.xml",

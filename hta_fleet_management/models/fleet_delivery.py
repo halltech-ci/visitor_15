@@ -18,10 +18,7 @@ class FleetDelivery(models.Model):
         ('cancel', 'Cancelled'),
         ], string='Status', readonly=True, copy=False, index=True, tracking=True, default='draft'
     )
-    partner_id = fields.Many2one('res.partner', string='Client')
-    """partner_shipping_id = fields.Many2one('res.partner', string='Delivery Address', required=True,
-        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",
-    )"""
+    partner_id = fields.Many2one('res.partner', string='Client', related='order_id.partner_id')
     delivery_line_ids = fields.One2many('fleet.delivery.line', 'delivery_id')
     company_id = fields.Many2one('res.company', 'Company', required=True, index=True, default=lambda self: self.env.company)
     date = fields.Datetime(string='Date', required=True, readonly=True, index=True, copy=False, default=fields.Datetime.now, help="Creation date")
@@ -43,7 +40,6 @@ class FleetDelivery(models.Model):
 class FleetDeliveryLine(models.Model):
     _name = "fleet.delivery.line"
     _description = "Gestion des livraison des commandes des clients"
-    
     
     state = fields.Selection(related="delivery_id.state")
     vehicle_id = fields.Many2one('fleet.vehicle', string="Vehicule")

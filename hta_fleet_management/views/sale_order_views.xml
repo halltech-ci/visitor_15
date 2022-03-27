@@ -1,13 +1,22 @@
 <odoo>
   <data>
-      <record>
-        <div name="button_box" position="inside">
-            <button name="action_open_fleet_delivery" type="object"
-                    class="oe_stat_button" icon="fa-car" groups="fleet.fleet_group_manager"
-                    attrs="{'invisible': [('employee_cars_count','=', 0)]}">
-                <field name="employee_cars_count" widget="statinfo" />
-            </button>
-        </div>
-      </record>
+      <record model="ir.ui.view" id="hta_fleet_mgmnt_sale_form_view">
+        <field name="name">fleet_mgmnt_sale_form_view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button name="action_open_fleet_delivery" 
+                    type="object"
+                    class="oe_stat_button" icon="fa-car" 
+                        attrs="{'invisible': [('delivery_count','=', 0)]}">
+                    <field name="delivery_count" widget="statinfo" />
+                </button>
+            </div>
+        </field>
+    </record>
+      
+      
+     
   </data>
 </odoo>

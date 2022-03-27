@@ -18,7 +18,7 @@ class PlanningSlot(models.Model):
     fleet_delivery_line = fields.Many2one("fleet.delivery.line", string="Delivery Line")#sale_line_id
     delivery_id = fields.Many2one('fleet.delivery', string='Fleet Delivery', related='fleet_delivery_line.delivery_id', store=True)#sale_order_id
     role_vehicle_ids = fields.One2many('fleet.vehicle', related='role_id.vehicle_ids')#role_product_ids
-    delivery_line_plannable = fields.Boolean(related='fleet_delivery_line.vehicle_id.planning_enabled')#sale_line_plannable
+    delivery_line_plannable = fields.Boolean(related='fleet_delivery_line.vehicle_id.planning_enabled', string='Plannable')#sale_line_plannable
     allocated_hours = fields.Float(compute_sudo=True)
     
     """
