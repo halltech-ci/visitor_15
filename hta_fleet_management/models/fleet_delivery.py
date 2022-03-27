@@ -55,6 +55,7 @@ class FleetDeliveryLine(models.Model):
     partner_id = fields.Many2one('res.partner', related="delivery_id.partner_id", string="Client")
     loading_date = fields.Datetime(string="Date de chargement")
     vehicle_owner = fields.Many2one('res.partner', related="vehicle_id.partner_id", string="Fournisseur")
+    sale_delivery_id = fields.Many2one('sale.order', related='delivery_id.order_id')
     
 class FleetVehicleDriver(models.Model):
     _name = "fleet.vehicle.driver"

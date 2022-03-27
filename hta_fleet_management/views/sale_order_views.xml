@@ -1,0 +1,13 @@
+<odoo>
+  <data>
+      <record>
+        <div name="button_box" position="inside">
+            <button name="action_open_fleet_delivery" type="object"
+                    class="oe_stat_button" icon="fa-car" groups="fleet.fleet_group_manager"
+                    attrs="{'invisible': [('employee_cars_count','=', 0)]}">
+                <field name="employee_cars_count" widget="statinfo" />
+            </button>
+        </div>
+      </record>
+  </data>
+</odoo>
